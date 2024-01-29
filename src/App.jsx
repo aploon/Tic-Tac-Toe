@@ -1,33 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {useMemo, useState} from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [nextPlayer, setNextPlayer] = useState('X')
+
+  const squareClick = (e) => {
+    // avoid click again
+    if (e.target.innerText !== '') return
+
+    // handle click
+    setNextPlayer((nextPlayer) => nextPlayer === 'X' ? 'O' : 'X')
+    e.target.innerText = nextPlayer
+
+    // set event
+    setEvent(
+      [
+          ...events, 
+        {
+          id: e.target.id,
+          player: nextPlayer
+        }
+      ]
+    )
+  }
+
+  const [events, setEvent] = useState([])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      {/* Jeu Tic.Tac.Toe */}
+
+      <div className="container">
+        <div className='col'>
+          <div className="next-player">
+            Next player: X  
+          </div>
+          <div className="game-tab">
+            <button id='0' className="square" onClick={squareClick}></button>
+            <button id='1' className="square" onClick={squareClick}></button>
+            <button id='2' className="square" onClick={squareClick}></button>
+            <br />
+            <button id='3' className="square" onClick={squareClick}></button>
+            <button id='4' className="square" onClick={squareClick}></button>
+            <button id='5' className="square" onClick={squareClick}></button>
+            <br />
+            <button id='6' className="square" onClick={squareClick}></button>
+            <button id='7' className="square" onClick={squareClick}></button>
+            <button id='8' className="square" onClick={squareClick}></button>
+
+          </div>
+        </div>
+        <div className='col'>
+          <ul>
+            <li><a href="#">Go to game start</a></li>
+            {
+              events.map((event, index) => (
+                <li key={event.id}>
+                  <a href="#" className="event-link">Go to move #{index + 1}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
