@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react'
+import {useState} from 'react'
 import './App.css'
 
 function App() {
@@ -77,12 +77,13 @@ function App() {
         </div>
         <div className='col'>
           <ul>
-            <li><a href="#">Go to game start</a></li>
-            {history.map((item, i) => (
-              <li key={item.index}>
+            <li><a href="#" onClick={() => jumpToMove(-1)}>Go to game start</a></li>
+            {history.map((item, i) => {
+              // if (i === 0) return null
+              return <li key={item.index}>
                 <a href="#" className='event-link' onClick={() => jumpToMove(i)}>Go to move #{i + 1}</a>
               </li>
-            ))}
+            })}
           </ul>
         </div>
       </div>
