@@ -22,6 +22,11 @@ function App() {
     status = 'Next player: ' + nextPlayer
   }
 
+  /**
+   * When a square is clicked, handle the click
+   * @param {number} i Square index : begin at 0
+   * @returns 
+   */
   const squareClick = (i) => {
     // avoid click again
     if (squares[i] !== null || stop) return
@@ -38,18 +43,24 @@ function App() {
     setNextPlayer(nextPlayer === 'X' ? 'O' : 'X');
   }
 
+  /**
+   * Navigate to a specific move in history
+   * @param {number} move Step u want to move : begin at -1
+   */
   const jumpToMove = (move) => {
 
-    let newHistory = history.splice(0, move + 1);
+    let newHistory = history.slice(0, move + 1);
     setHistory(newHistory);
 
     let newSquares = new Array(9).fill(null);
     newHistory.forEach((item) => {
       newSquares[item.index] = item.Player;
     })
-    setSquares(newSquares);
+    setSquares(newSquares)
 
-    setNextPlayer(newHistory[newHistory.length - 1].Player === 'X' ? 'O' : 'X');
+    if (newHistory.length > 0) {
+      setNextPlayer(newHistory[newHistory.length-1].Player === 'X' ? 'O' : 'X')
+    }
 
     stop = false;
   }
@@ -91,6 +102,11 @@ function App() {
   )
 }
 
+/**
+ * Calculate the winner by comparing the squares values in all winning combinations
+ * @param {String[]} squares Array of squares values
+ * @returns 
+ */
 function calculateWinner(squares) {
  const lines = [
     [0, 1, 2],
