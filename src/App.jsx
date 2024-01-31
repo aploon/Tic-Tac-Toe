@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import Square from './components/Square.jsx'
 import './App.css'
 
 function App() {
@@ -8,6 +9,18 @@ function App() {
   const [nextPlayer, setNextPlayer] = useState('X')
 
   const [history, setHistory] = useState([])
+
+  const winner = calculateWinner(squares)
+
+  let stop = false
+  let status = ''
+
+  if (winner) {
+    status = 'Winner: ' + winner
+    stop = true
+  } else {
+    status = 'Next player: ' + nextPlayer
+  }
 
   const squareClick = (i) => {
     // avoid click again
@@ -23,16 +36,6 @@ function App() {
 
     // Change next player
     setNextPlayer(nextPlayer === 'X' ? 'O' : 'X');
-  }
-
-  const winner = calculateWinner(squares)
-  let status
-  let stop = false
-  if (winner) {
-    status = 'Winner: ' + winner
-    stop = true
-  } else {
-    status = 'Next player: ' + nextPlayer
   }
 
   const jumpToMove = (move) => {
@@ -54,36 +57,33 @@ function App() {
   return (
     <>
       {/* Jeu Tic.Tac.Toe */}
-
       <div className="container">
         <div className='col'>
           <div className="next-player">
             {status}
           </div>
           <div className="game-tab">
-            <button className="square" onClick={() => squareClick(0)}>{squares[0]}</button>
-            <button className="square" onClick={() => squareClick(1)}>{squares[1]}</button>
-            <button className="square" onClick={() => squareClick(2)}>{squares[2]}</button>
+            <Square value={squares[0]} onSquareClick={() => squareClick(0)}></Square>
+            <Square value={squares[1]} onSquareClick={() => squareClick(1)}></Square>
+            <Square value={squares[2]} onSquareClick={() => squareClick(2)}></Square>
             <br />
-            <button className="square" onClick={() => squareClick(3)}>{squares[3]}</button>
-            <button className="square" onClick={() => squareClick(4)}>{squares[4]}</button>
-            <button className="square" onClick={() => squareClick(5)}>{squares[5]}</button>
+            <Square value={squares[3]} onSquareClick={() => squareClick(3)}></Square>
+            <Square value={squares[4]} onSquareClick={() => squareClick(4)}></Square>
+            <Square value={squares[5]} onSquareClick={() => squareClick(5)}></Square>
             <br />
-            <button className="square" onClick={() => squareClick(6)}>{squares[6]}</button>
-            <button className="square" onClick={() => squareClick(7)}>{squares[7]}</button>
-            <button className="square" onClick={() => squareClick(8)}>{squares[8]}</button>
-
+            <Square value={squares[6]} onSquareClick={() => squareClick(6)}></Square>
+            <Square value={squares[7]} onSquareClick={() => squareClick(7)}></Square>
+            <Square value={squares[8]} onSquareClick={() => squareClick(8)}></Square>
           </div>
         </div>
         <div className='col'>
           <ul>
             <li><a href="#" onClick={() => jumpToMove(-1)}>Go to game start</a></li>
-            {history.map((item, i) => {
-              // if (i === 0) return null
-              return <li key={item.index}>
+            {history.map((item, i) => 
+              <li key={item.index}>
                 <a href="#" className='event-link' onClick={() => jumpToMove(i)}>Go to move #{i + 1}</a>
               </li>
-            })}
+            )}
           </ul>
         </div>
       </div>
